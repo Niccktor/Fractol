@@ -6,7 +6,7 @@
 /*   By: nicktor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 22:54:36 by nicktor           #+#    #+#             */
-/*   Updated: 2019/03/31 00:55:15 by nicktor          ###   ########.fr       */
+/*   Updated: 2019/03/31 03:14:37 by nicktor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_render(t_mlx *all)
 {
-	ft_bzero((void *)all->win->img_str, all->win->width
-		* all->win->height * 4);
+//	ft_bzero((void *)all->win->img_str, all->win->width
+//		* all->win->height * 4);
 	ft_mandelbrot(all);
 	mlx_clear_window(all->mlx_ptr, all->win->win_ptr);
 	mlx_put_image_to_window(all->mlx_ptr, all->win->win_ptr,
