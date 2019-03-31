@@ -6,7 +6,7 @@
 /*   By: nicktor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 16:48:59 by nicktor           #+#    #+#             */
-/*   Updated: 2019/03/31 01:59:33 by nicktor          ###   ########.fr       */
+/*   Updated: 2019/03/31 10:38:47 by nicktor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,12 @@ void		ft_complex_calc(t_complex *z, t_complex c)
 
 double		ft_complex_mod(t_complex z)
 {
-	return (z.re * z.re + z.ir * z.ir);
+	double tmp;
+
+	tmp = z.re * z.re - z.ir * z.ir;
+	if (tmp < 0)
+		tmp *= -1;
+	return (sqrtf(tmp));
 }
 
 void		ft_mandelbrot(t_mlx *all)
@@ -56,9 +61,9 @@ void		ft_mandelbrot(t_mlx *all)
 			c = ft_new_complex(-2.2 + (double)x * 4.4 / (double)all->win->width
 				, 2.2 - (double)y * 4.4 / (double)all->win->height);
 			i = 0;
-// uncom si rebug	while ((i <= all->cam->iter)
-//				&& !(ft_complex_mod(z) > 4.0))
-			while ((i <= all->cam->iter) && ft_complex_mod(z) < 4.0)
+/* uncom si rebug*/	//while ((i <= all->cam->iter)
+			//	&& !(ft_complex_mod(z) > 2.0))
+		while ((i <= all->cam->iter) && (ft_complex_mod(z) <= 2.0))
 			{
 				ft_complex_calc(&z, c);
 				i++;
