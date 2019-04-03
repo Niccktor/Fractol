@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 16:09:03 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/03/31 01:50:22 by nicktor          ###   ########.fr       */
+/*   Updated: 2019/04/03 19:40:26 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,46 +19,57 @@
 
 typedef struct		s_complex
 {
-	double		re;
-	double		ir;
-}			t_complex;
+	double			re;
+	double			ir;
+}					t_complex;
 
 typedef struct		s_win
 {
-	void		*win_ptr;
-	char		*name;
-	int 		width;
-	int		height;
-	void		*img_ptr;
+	void			*win_ptr;
+	char			*name;
+	int 			width;
+	int				height;
+	void			*img_ptr;
 	unsigned int	*img_str;
-}			t_win;
+}					t_win;
 
 typedef struct		s_cam
 {
+	char 			fractal;
+	int				mouse_left;
+	int				mouse_right;
+	int				x_mouse;
+	int				y_mouse;
 	unsigned int	color;
 	unsigned int	color_end;
-	unsigned int	iter;
-}			t_cam;
+	int				iter;
+}					t_cam;
 
 typedef struct		s_mlx
 {
-	void		*mlx_ptr;
-	t_win		*win;
-	t_cam		*cam;
-}			t_mlx;
+	void			*mlx_ptr;
+	t_win			*win;
+	t_cam			*cam;
+}					t_mlx;
 
 /*
 **					main.c
 */
 
-void		ft_close(char *e);
+int		ft_close(char *e);
 
 /*
- *					event.c
+ *					key_event.c
  */
 int		ft_key_hook(int key, void *para);
-int		ft_mouse_hook(int button, int x, int y, void *para);
 
+/*
+**					mouse_event.c
+*/
+
+int			ft_mouse_press(int key, int x, int y, void *param);
+int			ft_mouse_release(int key, int x, int y, void *param);
+int			ft_mouse_move(int x, int y, void *param);
 
 void		ft_mandelbrot(t_mlx *all);
 t_complex	ft_new_complex(double re, double ir);
@@ -81,4 +92,19 @@ void		ft_legend(t_mlx *all);
 */
 
 unsigned int	ft_get_color(t_mlx *all, int i);
+
+/*
+**					math.c
+*/
+
+t_complex	ft_new_complex(double re, double ir);
+void		ft_complex_calc(t_complex *z, t_complex c);
+double		ft_complex_mod(t_complex z);
+
+/*
+**					julia.c
+*/
+
+int		ft_julia(t_mlx *all, int x_mouse, int y_mouse);
+
 #endif
