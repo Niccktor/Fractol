@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 16:06:50 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/04/03 19:46:07 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/04/03 20:17:35 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int			main(int argc, char **argv)
 	argv[0][0] = '\0';
 	if ((all = ft_new_mlx()) == NULL)
 		return (-1);
-	if ((all = ft_new_win(all, "Mandelbrot", 500, 500)) == NULL)
+	if ((all = ft_new_win(all, "Mandelbrot", 1080, 1080)) == NULL)
 		ft_close("Erreur malloc win");
 	if ((all = ft_new_cam(all)) == NULL)
 		ft_close("Erreur malloc win");

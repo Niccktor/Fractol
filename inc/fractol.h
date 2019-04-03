@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 16:09:03 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/04/03 19:40:26 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/04/03 21:01:09 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ typedef struct		s_cam
 	char 			fractal;
 	int				mouse_left;
 	int				mouse_right;
+	double			x_min;
+	double			x_max;
+	double			y_min;
+	double			y_max;
 	int				x_mouse;
 	int				y_mouse;
 	unsigned int	color;
@@ -106,5 +110,4 @@ double		ft_complex_mod(t_complex z);
 */
 
 int		ft_julia(t_mlx *all, int x_mouse, int y_mouse);
-
 #endif

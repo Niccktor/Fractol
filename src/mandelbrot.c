@@ -6,7 +6,7 @@
 /*   By: nicktor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 16:48:59 by nicktor           #+#    #+#             */
-/*   Updated: 2019/04/03 18:40:54 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/04/03 21:40:14 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,16 @@ void		ft_mandelbrot(t_mlx *all)
 	t_complex	c;
 
 	y = -1;
-	while (++y < all->win->height / 2 + 1)
+	while (++y < all->win->height)
 	{
 		x = -1;
 		while (++x < all->win->width)
 		{
 			z = ft_new_complex(0.0, 0.0);
-			c = ft_new_complex(-2.2 + (double)x * 4.4 / (double)all->win->width
-				, 2.2 - (double)y * 4.4 / (double)all->win->height);
+			c = ft_new_complex(all->cam->x_min
+					+ x * all->cam->x_max /all->win->width
+				, all->cam->y_min
+				- y * all->cam->y_max / all->win->height);
 			i = -1;
 			while (++i <= all->cam->iter && ft_complex_mod(z) <= 2.0)
 				ft_complex_calc(&z, c);

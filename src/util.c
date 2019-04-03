@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 19:30:51 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/04/03 19:38:36 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/04/03 20:51:02 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,10 @@ t_mlx	*ft_new_cam(t_mlx *all)
 	all->cam->color = 0x010101;
 	all->cam->color_end = 0;
 	all->cam->iter = 10;
+	all->cam->x_min = -2.2;
+	all->cam->x_max = 4.4;
+	all->cam->y_min = 2.2;
+	all->cam->y_max = 4.4;
+
 	return (all);
 }
