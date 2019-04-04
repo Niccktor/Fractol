@@ -6,7 +6,7 @@
 /*   By: nicktor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 16:48:59 by nicktor           #+#    #+#             */
-/*   Updated: 2019/04/03 21:40:14 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/04/04 22:21:26 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void		ft_reve(t_mlx *all)
 	}
 }
 
-void		ft_mandelbrot(t_mlx *all)
+void			ft_mandelbrot(t_mlx *all)
 {
 	int			x;
 	int			y;
@@ -43,21 +43,21 @@ void		ft_mandelbrot(t_mlx *all)
 	t_complex	c;
 
 	y = -1;
-	while (++y < all->win->height)
+	while ((++y < all->win->height / 2 + 1 && all->fra->reve == 1)
+			|| (y < all->win->height && all->fra->reve == 0))
 	{
 		x = -1;
 		while (++x < all->win->width)
 		{
 			z = ft_new_complex(0.0, 0.0);
-			c = ft_new_complex(all->cam->x_min
-					+ x * all->cam->x_max /all->win->width
-				, all->cam->y_min
-				- y * all->cam->y_max / all->win->height);
+			c = ft_new_complex(x / all->fra->zoom_x + all->fra->x_min,
+					y / all->fra->zoom_y + all->fra->y_min);
 			i = -1;
-			while (++i <= all->cam->iter && ft_complex_mod(z) <= 2.0)
+			while (++i <= all->fra->iter && ft_complex_mod(z) <= 2.0)
 				ft_complex_calc(&z, c);
 			ft_fill_pixel(all, x, y, ft_get_color(all, i));
 		}
 	}
-	ft_reve(all);
+	if (all->fra->reve == 1)
+		ft_reve(all);
 }

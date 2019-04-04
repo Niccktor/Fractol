@@ -6,7 +6,7 @@
 /*   By: nicktor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 22:54:36 by nicktor           #+#    #+#             */
-/*   Updated: 2019/04/03 19:44:22 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/04/04 20:45:39 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_legend(t_mlx *all)
 {
 	char *nbr;
 
-	nbr = ft_itoa(all->cam->iter);
+	nbr = ft_itoa(all->fra->iter);
 	mlx_string_put(all->mlx_ptr, all->win->win_ptr, 0, 40, 0xFF0000, "iter = ");
 	mlx_string_put(all->mlx_ptr, all->win->win_ptr, 100, 40, 0xFF0000, nbr);
 	ft_memdel((void *)&nbr);

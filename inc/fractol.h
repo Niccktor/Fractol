@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 16:09:03 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/04/03 21:01:09 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/04/04 20:50:17 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,30 @@ typedef struct		s_cam
 	char 			fractal;
 	int				mouse_left;
 	int				mouse_right;
-	double			x_min;
-	double			x_max;
-	double			y_min;
-	double			y_max;
 	int				x_mouse;
 	int				y_mouse;
 	unsigned int	color;
 	unsigned int	color_end;
-	int				iter;
 }					t_cam;
+
+typedef struct		s_fract
+{
+	double			x_min;
+	double			x_max;
+	double			y_min;
+	double			y_max;
+	double			zoom_x;
+	double			zoom_y;
+	int				iter;
+	int				reve;
+}					t_fract;
 
 typedef struct		s_mlx
 {
 	void			*mlx_ptr;
 	t_win			*win;
 	t_cam			*cam;
+	t_fract			*fra;
 }					t_mlx;
 
 /*
@@ -84,6 +92,7 @@ t_complex	ft_new_complex(double re, double ir);
 t_mlx	*ft_new_mlx();
 t_mlx	*ft_new_win(t_mlx *mlx_all, char *s, int width, int height);
 t_mlx	*ft_new_cam(t_mlx *all);
+t_mlx	*ft_new_fract(t_mlx *all);
 /*
 **					draw.c
 */

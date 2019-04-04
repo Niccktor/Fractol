@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event.c                                            :+:      :+:    :+:   */
+/*   key_event.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/14 18:31:01 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/04/03 20:28:33 by tbeguin          ###   ########.fr       */
+/*   Created: 2019/04/04 22:18:04 by tbeguin           #+#    #+#             */
+/*   Updated: 2019/04/04 22:18:04 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fractol.h"
 
-
 static void	ft_key_cam(int key, t_mlx *all)
 {
-	if (key == 125 && all->cam->iter > 100)
-		all->cam->iter -= 100;
-	else if (key == 126 && all->cam->iter < 5000)
-		all->cam->iter += 100;
+	if (key == 125 && all->fra->iter > 100)
+		all->fra->iter -= 100;
+	else if (key == 126 && all->fra->iter < 5000)
+		all->fra->iter += 100;
 	else if (key == 38)
 		all->cam->fractal = 'j';
 	else if (key == 46)
@@ -26,7 +25,7 @@ static void	ft_key_cam(int key, t_mlx *all)
 	ft_render(all);
 }
 
-int		ft_key_hook(int key, void *para)
+int			ft_key_hook(int key, void *para)
 {
 	t_mlx *all;
 
@@ -39,26 +38,13 @@ int		ft_key_hook(int key, void *para)
 	}
 	if (key == 125 || key == 126 || key == 38 || key == 46 || key == 15)
 		ft_key_cam(key, all);
-
-	ft_putstr("----------------------key----------------------\n");
-	ft_putnbr(key);
-	ft_putstr("\n");
-	ft_putstr("-----------------------------------------------\n");
 	return (0);
 }
 
-int		ft_mouse_hook(int button, int x, int y, void *para)
+int			ft_mouse_hook(int button, int x, int y, void *para)
 {
 	t_mlx		*all;
 
 	all = (t_mlx *)para;
-	ft_putstr("----------------------mouse--------------------\n");
-	ft_putnbr(button);
-	ft_putstr("\n");
-	ft_putnbr(x);
-	ft_putstr("\n");
-	ft_putnbr(y);
-	ft_putstr("\n");
-	ft_putstr("-----------------------------------------------\n");
 	return (0);
 }

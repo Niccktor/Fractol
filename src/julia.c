@@ -6,14 +6,14 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 18:20:17 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/04/03 21:15:07 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/04/04 22:16:56 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fractol.h"
 #include <stdio.h>
 
-static void	ft_reve(t_mlx *all)
+static void		ft_reve(t_mlx *all)
 {
 	unsigned int	color;
 	int				i;
@@ -37,9 +37,18 @@ static void	ft_reve(t_mlx *all)
 	}
 }
 
-int		ft_julia(t_mlx *all, int x_mouse, int y_mouse)
+static void		ft_calcu(t_complex z, t_complex c)
 {
-	int			i;
+	int i;
+
+	i = -1;
+	while (++i <= all->fra->iter && ft_complex_mod(z) <= 2.0)
+		ft_complex_calc(&z, c);
+	ft_fill_pixel(all, x, y, ft_get_color(all, i));
+}
+
+int				ft_julia(t_mlx *all, int x_mouse, int y_mouse)
+{
 	int			x;
 	int			y;
 	t_complex	z;
@@ -49,24 +58,20 @@ int		ft_julia(t_mlx *all, int x_mouse, int y_mouse)
 	if (!(y_mouse >= 0 && y_mouse <= all->win->height
 			&& x_mouse >= 0 && x_mouse <= all->win->width))
 		return (-1);
-	while (++y < all->win->height / 2 + 1 )
+	while ((++y < all->win->height / 2 + 1 && all->fra->reve == 1)
+			|| (y < all->win->height && all->fra->reve == 0))
 	{
 		x = -1;
 		while (++x < all->win->width)
 		{
-			z = ft_new_complex(all->cam->x_min + x
-					* all->cam->x_max / all->win->width
-					, all->cam->y_min - y * all->cam->y_max / all->win->height);
-			c = ft_new_complex(all->cam->x_min + x_mouse
-					* all->cam->x_max / all->win->width
-					, all->cam->y_min - y_mouse
-					* all->cam->y_max / all->win->height);
-			i = -1;
-			while (++i <= all->cam->iter && ft_complex_mod(z) <= 2.0)
-				ft_complex_calc(&z, c);
-			ft_fill_pixel(all, x, y, ft_get_color(all, i));
+			z = ft_new_complex(x / all->fra->zoom_x + all->fra->x_min,
+					y / all->fra->zoom_y + all->fra->y_min);
+			c = ft_new_complex(x_mouse / all->fra->zoom_x + all->fra->x_min,
+					y_mouse / all->fra->zoom_y + all->fra->y_min);
+			ft_calcul(z, c);
 		}
 	}
-	ft_reve(all);
+	if (all->fra->reve == 1)
+		ft_reve(all);
 	return (0);
 }
