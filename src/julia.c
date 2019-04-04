@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 18:20:17 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/04/04 22:16:56 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/04/04 22:34:56 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void		ft_reve(t_mlx *all)
 	}
 }
 
-static void		ft_calcu(t_complex z, t_complex c)
+static void		ft_calcul(t_mlx *all,t_complex z, t_complex c, int x, int y)
 {
 	int i;
 
@@ -68,7 +68,7 @@ int				ft_julia(t_mlx *all, int x_mouse, int y_mouse)
 					y / all->fra->zoom_y + all->fra->y_min);
 			c = ft_new_complex(x_mouse / all->fra->zoom_x + all->fra->x_min,
 					y_mouse / all->fra->zoom_y + all->fra->y_min);
-			ft_calcul(z, c);
+			ft_calcul(all, z, c, x ,y);
 		}
 	}
 	if (all->fra->reve == 1)

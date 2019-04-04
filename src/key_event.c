@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 22:18:04 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/04/04 22:18:04 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/04/04 22:36:03 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,5 @@ int			ft_key_hook(int key, void *para)
 	}
 	if (key == 125 || key == 126 || key == 38 || key == 46 || key == 15)
 		ft_key_cam(key, all);
-	return (0);
-}
-
-int			ft_mouse_hook(int button, int x, int y, void *para)
-{
-	t_mlx		*all;
-
-	all = (t_mlx *)para;
 	return (0);
 }
