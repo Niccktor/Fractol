@@ -6,7 +6,7 @@
 /*   By: nicktor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 01:21:06 by nicktor           #+#    #+#             */
-/*   Updated: 2019/04/04 20:46:51 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/04/11 17:25:19 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,17 @@
 unsigned int	ft_get_color(t_mlx *all, int i)
 {
 	unsigned int color;
+	unsigned int tmp;
 
-	if (i > all->fra->iter)
+	if (i >= all->fra->iter)
 		return (all->cam->color_end);
-	color = (i * 10) * all->cam->color;
-	color = (color << 8) + (255 - (i * 2) * all->cam->color);
-	color = (color << 8) + (255 - (i * 5) * all->cam->color);
+	tmp = (i * all->cam->o) % 0xFF;
+	color = tmp;
+	tmp = (i * all->cam->r) % 0xFF;
+	color = (color << 8) + tmp;
+	tmp = (i * all->cam->g) % 0xFF;
+	color = (color << 8) + tmp;
+	tmp = (i * all->cam->b) % 0xFF;
+	color = (color << 8) + tmp;
 	return (color);
 }

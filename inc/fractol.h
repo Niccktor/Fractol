@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 16:09:03 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/04/04 20:50:17 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/04/11 18:00:05 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 # include "../libft/libft.h"
 # include <mlx.h>
+# include <pthread.h>
 
 typedef struct		s_complex
 {
@@ -41,6 +42,10 @@ typedef struct		s_cam
 	int				x_mouse;
 	int				y_mouse;
 	unsigned int	color;
+	int				o;
+	int				r;
+	int				g;
+	int				b;
 	unsigned int	color_end;
 }					t_cam;
 
@@ -55,13 +60,22 @@ typedef struct		s_fract
 	int				iter;
 	int				reve;
 }					t_fract;
-
+/*
+typedef struct		s_thread
+{
+	pthread_t		**thread;
+	int				wait;
+	int				exit;
+	int				nb;
+}					t_thread;
+*/
 typedef struct		s_mlx
 {
 	void			*mlx_ptr;
 	t_win			*win;
 	t_cam			*cam;
 	t_fract			*fra;
+/*	t_thread		*thread;*/
 }					t_mlx;
 
 /*
@@ -79,6 +93,9 @@ int		ft_key_hook(int key, void *para);
 **					mouse_event.c
 */
 
+void		ft_zoom_in(t_mlx *all, int x, int y);
+void		ft_zoom_out(t_mlx *all, int x, int y);
+
 int			ft_mouse_press(int key, int x, int y, void *param);
 int			ft_mouse_release(int key, int x, int y, void *param);
 int			ft_mouse_move(int x, int y, void *param);
@@ -93,6 +110,7 @@ t_mlx	*ft_new_mlx();
 t_mlx	*ft_new_win(t_mlx *mlx_all, char *s, int width, int height);
 t_mlx	*ft_new_cam(t_mlx *all);
 t_mlx	*ft_new_fract(t_mlx *all);
+t_mlx	*ft_new_thread(t_mlx *all);
 /*
 **					draw.c
 */
@@ -119,4 +137,8 @@ double		ft_complex_mod(t_complex z);
 */
 
 int		ft_julia(t_mlx *all, int x_mouse, int y_mouse);
+/*
+**					ship.c
+*/
+void	ft_ship(t_mlx *all);
 #endif

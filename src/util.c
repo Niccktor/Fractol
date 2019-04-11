@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 19:30:51 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/04/04 22:14:23 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/04/11 16:00:31 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@ t_mlx	*ft_new_mlx(void)
 	if ((new = (t_mlx *)ft_memalloc(sizeof(t_mlx))) == NULL)
 		return (NULL);
 	if ((new->mlx_ptr = mlx_init()) == NULL)
-	{
-		ft_memdel((void **)&new);
 		return (NULL);
-	}
+/*	if ((new->thread = (t_thread *)ft_memalloc(sizeof(t_thread))) == NULL)
+		return (NULL);*/
 	return (new);
 }
 
@@ -33,14 +32,10 @@ t_mlx	*ft_new_win(t_mlx *all, char *s, int width, int height)
 	int endian;
 
 	if ((all->win = (t_win *)ft_memalloc(sizeof(t_win))) == NULL)
-	{
-		ft_memdel((void **)&(all->mlx_ptr));
-		ft_memdel((void **)&all);
 		return (NULL);
-	}
 	if ((all->win->img_ptr = mlx_new_image(all->mlx_ptr, width, height))
 			== NULL)
-		ft_close("Erreur malloc img");
+		return (NULL);
 	all->win->img_str =
 		(unsigned int *)mlx_get_data_addr(all->win->img_ptr,
 				&bpp, &s_l, &endian);
@@ -61,7 +56,11 @@ t_mlx	*ft_new_cam(t_mlx *all)
 	all->cam->mouse_right = 0;
 	all->cam->y_mouse = 0;
 	all->cam->x_mouse = 0;
-	all->cam->color = 0x010101;
+	all->cam->o = 0;
+	all->cam->r = 10;
+	all->cam->g = 2;
+	all->cam->b = 5;
+	all->cam->color = 0x00001;
 	all->cam->color_end = 0;
 	return (all);
 }
@@ -80,3 +79,45 @@ t_mlx	*ft_new_fract(t_mlx *all)
 	all->fra->reve = 1;
 	return (all);
 }
+/*
+void 	*ft_thread_render(void *arg)
+{
+	t_mlx *all;
+	int i;
+
+	all = (t_mlx *)arg;
+	i = all->thread->nb;
+	all->thread->nb++;
+	while (all->thread->exit)
+	{
+		if (all->thread->wait)
+			ft_render(all,
+					all->win->width / 4 * (i + 1), all->win->height / 4 * (i + 1));
+	}
+	pthread_exit(NULL);
+}
+
+t_mlx	*ft_new_thread(t_mlx *all)
+{
+	int i;
+
+	if ((all->thread = (t_thread *)ft_memalloc(sizeof(t_thread))) == NULL)
+		return (NULL);
+	all->thread->wait = 0;
+	all->thread->exit = 1;
+	all->thread->nb = 0;
+	if ((all->thread->thread
+				= (pthread_t **)ft_memalloc(sizeof((pthread_t *) 4))) == NULL)
+		return (NULL);
+	i = 0;
+	while (i < 4)
+	{
+		if ((all->thread->thread[i]
+					= (pthread_t *)ft_memalloc(sizeof(pthread_t))) == NULL)
+			return (NULL);
+		if (pthread_create(all->thread->thread[i] , NULL, ft_thread_render, all))
+			return (NULL);
+		i++;
+	}
+	return (all);
+}*/

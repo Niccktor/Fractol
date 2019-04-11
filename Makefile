@@ -6,15 +6,14 @@
 #    By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/14 15:49:27 by tbeguin           #+#    #+#              #
-#    Updated: 2019/04/04 22:39:25 by tbeguin          ###   ########.fr        #
+#    Updated: 2019/04/09 15:34:43 by tbeguin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -Ofast
-
+CFLAGS = -Wall -Wextra -Werror
 
 SRC_DIR = ./src
 INC_DIR	= ./inc
@@ -31,8 +30,8 @@ SRC = main.c		\
 	  julia.c		\
 	  math.c		\
 	  mouse_event.c	\
-	  key_event.c	
-
+	  key_event.c	\
+	  ship.c
 
 OBJ = $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 
