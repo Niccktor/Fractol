@@ -6,7 +6,7 @@
 #    By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/14 15:49:27 by tbeguin           #+#    #+#              #
-#    Updated: 2019/04/09 15:34:43 by tbeguin          ###   ########.fr        #
+#    Updated: 2019/06/19 17:11:10 by tbeguin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ SRC = main.c		\
 	  math.c		\
 	  mouse_event.c	\
 	  key_event.c	\
-	  ship.c
+	  ship.c		\
+	  test.c
 
 OBJ = $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 

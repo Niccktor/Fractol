@@ -6,13 +6,13 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 22:22:14 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/04/11 17:59:18 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/05/06 15:32:28 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fractol.h"
 
-void	ft_zoom_in(t_mlx *all, int x, int y)
+void	ft_zoom_in(t_mlx *all, int x, int y, double zoom)
 {
 	double	e;
 	double	x1;
@@ -22,12 +22,12 @@ void	ft_zoom_in(t_mlx *all, int x, int y)
 		all->fra->reve = 0;
 		e = (all->fra->x_max - all->fra->x_min) / 2;
 		x1 = x / all->fra->zoom_x + all->fra->x_min;
-		all->fra->x_min = x1 - e * 1.2;
-		all->fra->x_max = x1 + e * 1.2;
+		all->fra->x_min = x1 - e * zoom;
+		all->fra->x_max = x1 + e * zoom;
 		e = (all->fra->y_max - all->fra->y_min) / 2;
 		x1 = y / all->fra->zoom_y + all->fra->y_min;
-		all->fra->y_min = x1 - e * 1.2;
-		all->fra->y_max = x1 + e * 1.2;
+		all->fra->y_min = x1 - e * zoom;
+		all->fra->y_max = x1 + e * zoom;
 		all->fra->zoom_x = all->win->width
 			/ (all->fra->x_max - all->fra->x_min);
 		all->fra->zoom_y = all->win->height
@@ -35,7 +35,7 @@ void	ft_zoom_in(t_mlx *all, int x, int y)
 	}
 }
 
-void	ft_zoom_out(t_mlx *all, int x, int y)
+void	ft_zoom_out(t_mlx *all, int x, int y, double zoom)
 {
 	double e;
 	double x1;
@@ -45,12 +45,12 @@ void	ft_zoom_out(t_mlx *all, int x, int y)
 		all->fra->reve = 0;
 		e = (all->fra->x_max - all->fra->x_min) / 2;
 		x1 = x / all->fra->zoom_x + all->fra->x_min;
-		all->fra->x_min = x1 - e / 1.2;
-		all->fra->x_max = x1 + e / 1.2;
+		all->fra->x_min = x1 - e / zoom;
+		all->fra->x_max = x1 + e / zoom;
 		e = (all->fra->y_max - all->fra->y_min) / 2;
 		x1 = y / all->fra->zoom_y + all->fra->y_min;
-		all->fra->y_min = x1 - e / 1.2;
-		all->fra->y_max = x1 + e / 1.2;
+		all->fra->y_min = x1 - e / zoom;
+		all->fra->y_max = x1 + e / zoom;
 		all->fra->zoom_x = all->win->width
 			/ (all->fra->x_max - all->fra->x_min);
 		all->fra->zoom_y = all->win->height
@@ -58,7 +58,7 @@ void	ft_zoom_out(t_mlx *all, int x, int y)
 	}
 }
 
-int			ft_mouse_press(int key, int x, int y, void *param)
+int		ft_mouse_press(int key, int x, int y, void *param)
 {
 	t_mlx	*all;
 
@@ -66,20 +66,18 @@ int			ft_mouse_press(int key, int x, int y, void *param)
 	if (x > all->win->width || x < 0 || y > all->win->height || y < 0)
 		return (0);
 	if (key == 4)
-		ft_zoom_in(all, x, y);
+		ft_zoom_in(all, x, y, 1.2);
 	if (key == 5)
-		ft_zoom_out(all, x, y);
+		ft_zoom_out(all, x, y, 1.2);
 	if (key == 1)
 		all->cam->mouse_right = 0;
 	if (key == 2)
 		all->cam->mouse_right = 1;
 	ft_render(all);
-/*	all->thread->wait = 1;*/
-
 	return (0);
 }
 
-int			ft_mouse_release(int key, int x, int y, void *param)
+int		ft_mouse_release(int key, int x, int y, void *param)
 {
 	t_mlx	*all;
 
@@ -90,7 +88,7 @@ int			ft_mouse_release(int key, int x, int y, void *param)
 	return (0);
 }
 
-int			ft_mouse_move(int x, int y, void *param)
+int		ft_mouse_move(int x, int y, void *param)
 {
 	t_mlx *all;
 
@@ -102,7 +100,6 @@ int			ft_mouse_move(int x, int y, void *param)
 		all->cam->x_mouse = x;
 		all->cam->y_mouse = y;
 		ft_render(all);
-/*		all->thread->wait = 1;*/
 	}
 	return (0);
 }

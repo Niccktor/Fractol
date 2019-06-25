@@ -6,7 +6,7 @@
 /*   By: nicktor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 22:54:36 by nicktor           #+#    #+#             */
-/*   Updated: 2019/04/11 15:58:11 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/05/03 19:57:19 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	ft_render(t_mlx *all)
 		ft_julia(all, all->cam->x_mouse, all->cam->y_mouse);
 	else if (all->cam->fractal == 's')
 		ft_ship(all);
-//	all->thread->wait = 0;/**/
 	mlx_clear_window(all->mlx_ptr, all->win->win_ptr);
 	mlx_put_image_to_window(all->mlx_ptr, all->win->win_ptr,
 		all->win->img_ptr, 0, 0);

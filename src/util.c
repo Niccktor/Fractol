@@ -6,13 +6,29 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 19:30:51 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/04/11 16:00:31 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/05/06 14:29:07 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fractol.h"
 
-t_mlx	*ft_new_mlx(void)
+static char	ft_check_argv(char *argv, char *test)
+{
+	int		i;
+
+	i = 0;
+	while (test[i] != '\0' && argv[i] != '\0')
+	{
+		if (test[i] != ft_tolower(argv[i]))
+			break ;
+		i++;
+	}
+	if (test[i] == '\0' && argv[i] == '\0')
+		return (test[0]);
+	return ('\0');
+}
+
+t_mlx		*ft_new_mlx(void)
 {
 	t_mlx	*new;
 
@@ -20,12 +36,10 @@ t_mlx	*ft_new_mlx(void)
 		return (NULL);
 	if ((new->mlx_ptr = mlx_init()) == NULL)
 		return (NULL);
-/*	if ((new->thread = (t_thread *)ft_memalloc(sizeof(t_thread))) == NULL)
-		return (NULL);*/
 	return (new);
 }
 
-t_mlx	*ft_new_win(t_mlx *all, char *s, int width, int height)
+t_mlx		*ft_new_win(t_mlx *all, char *s, int width, int height)
 {
 	int bpp;
 	int s_l;
@@ -47,11 +61,20 @@ t_mlx	*ft_new_win(t_mlx *all, char *s, int width, int height)
 	return (all);
 }
 
-t_mlx	*ft_new_cam(t_mlx *all)
+t_mlx		*ft_new_cam(t_mlx *all, char *argv)
 {
+	char fractal;
+
 	if ((all->cam = (t_cam *)ft_memalloc(sizeof(t_cam))) == NULL)
 		ft_close("Malloc cam error");
-	all->cam->fractal = 'm';
+	if ((fractal = ft_check_argv(argv, "mandelbrot")) != '\0')
+		all->cam->fractal = fractal;
+	else if ((fractal = ft_check_argv(argv, "julia")) != '\0')
+		all->cam->fractal = fractal;
+	else if ((fractal = ft_check_argv(argv, "ship")) != '\0')
+		all->cam->fractal = fractal;
+	else
+		ft_close("Usage : ./fractol < Mandelbrot | Julia | Ship >");
 	all->cam->mouse_left = 0;
 	all->cam->mouse_right = 0;
 	all->cam->y_mouse = 0;
@@ -65,7 +88,7 @@ t_mlx	*ft_new_cam(t_mlx *all)
 	return (all);
 }
 
-t_mlx	*ft_new_fract(t_mlx *all)
+t_mlx		*ft_new_fract(t_mlx *all)
 {
 	if ((all->fra = (t_fract *)ft_memalloc(sizeof(t_fract))) == NULL)
 		ft_close("Malloc fract error");
@@ -79,45 +102,3 @@ t_mlx	*ft_new_fract(t_mlx *all)
 	all->fra->reve = 1;
 	return (all);
 }
-/*
-void 	*ft_thread_render(void *arg)
-{
-	t_mlx *all;
-	int i;
-
-	all = (t_mlx *)arg;
-	i = all->thread->nb;
-	all->thread->nb++;
-	while (all->thread->exit)
-	{
-		if (all->thread->wait)
-			ft_render(all,
-					all->win->width / 4 * (i + 1), all->win->height / 4 * (i + 1));
-	}
-	pthread_exit(NULL);
-}
-
-t_mlx	*ft_new_thread(t_mlx *all)
-{
-	int i;
-
-	if ((all->thread = (t_thread *)ft_memalloc(sizeof(t_thread))) == NULL)
-		return (NULL);
-	all->thread->wait = 0;
-	all->thread->exit = 1;
-	all->thread->nb = 0;
-	if ((all->thread->thread
-				= (pthread_t **)ft_memalloc(sizeof((pthread_t *) 4))) == NULL)
-		return (NULL);
-	i = 0;
-	while (i < 4)
-	{
-		if ((all->thread->thread[i]
-					= (pthread_t *)ft_memalloc(sizeof(pthread_t))) == NULL)
-			return (NULL);
-		if (pthread_create(all->thread->thread[i] , NULL, ft_thread_render, all))
-			return (NULL);
-		i++;
-	}
-	return (all);
-}*/
