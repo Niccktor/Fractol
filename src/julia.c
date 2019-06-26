@@ -6,37 +6,13 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 18:20:17 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/05/06 14:44:57 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/06/26 02:52:16 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fractol.h"
 #include <stdio.h>
-
-static void		ft_reve(t_mlx *all)
-{
-	unsigned int	color;
-	int				i;
-	int				j;
-	int				k;
-	int				l;
-
-	i = -1;
-	k = all->win->height;
-	while (++i < all->win->height / 2)
-	{
-		l = all->win->width;
-		j = -1;
-		while (++j < all->win->width)
-		{
-			color = all->win->img_str[i * all->win->width + j];
-			ft_fill_pixel(all, l, k, color);
-			l--;
-		}
-		k--;
-	}
-}
-
+/*
 static void		ft_calcul(t_mlx *all, t_complex z, t_complex c, t_point pos)
 {
 	int i;
@@ -46,10 +22,10 @@ static void		ft_calcul(t_mlx *all, t_complex z, t_complex c, t_point pos)
 		ft_complex_calc(&z, c);
 	ft_fill_pixel(all, pos.x, pos.y, ft_get_color(all, i));
 }
-
-int				ft_julia(t_mlx *all, int x_mouse, int y_mouse)
+*/
+void			*julia(t_mlx *all)
 {
-	t_point		pos;
+/*	t_point		pos;
 	t_complex	z;
 	t_complex	c;
 
@@ -71,6 +47,21 @@ int				ft_julia(t_mlx *all, int x_mouse, int y_mouse)
 		}
 	}
 	if (all->fra->reve == 1)
-		ft_reve(all);
+		ft_reve(all);*/
+	all->fra.x_min = -2.2;
 	return (0);
+}
+
+void		init_julia(t_mlx *all)
+{
+	all->fra.fractal = julia;
+	all->fra.x_min = -2.2;
+	all->fra.x_max = 2.2;
+	all->fra.y_min = -2.2;
+	all->fra.y_max = 2.2;
+	all->fra.iter = 100;
+	all->fra.pow = 2;
+	all->fra.zoom_x = all->win.width / (all->fra.x_max - all->fra.x_min);
+	all->fra.zoom_y = all->win.width / (all->fra.y_max - all->fra.y_min);
+	init_cam(&all->cam);
 }

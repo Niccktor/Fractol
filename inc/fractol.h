@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 16:09:03 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/06/19 17:32:30 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/06/26 04:35:19 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef struct		s_win
 
 typedef struct		s_cam
 {
-	char			fractal;
 	int				mouse_left;
 	int				mouse_right;
 	int				x_mouse;
@@ -53,10 +52,12 @@ typedef struct		s_cam
 	int				g;
 	int				b;
 	unsigned int	color_end;
+	int				threads; 
 }					t_cam;
 
 typedef struct		s_fract
 {
+	void			*(*fractal)();
 	double			x_min;
 	double			x_max;
 	double			y_min;
@@ -64,40 +65,47 @@ typedef struct		s_fract
 	double			zoom_x;
 	double			zoom_y;
 	int				iter;
-	int				reve;
+	int				pow;
 }					t_fract;
 
 typedef struct		s_mlx
 {
-	void			*mlx_ptr;
-	t_win			*win;
-	t_cam			*cam;
-	t_fract			*fra;
+	void				*mlx_ptr;
+	char				*name;
+	struct s_win			win;
+	struct s_cam			cam;
+	struct s_fract			fra;
 }					t_mlx;
 
 typedef struct		s_thread
 {
 	int				i;
-	t_mlx			*data;
+	t_mlx			all;
 	pthread_t		thread;
 }					t_thread;
 /*
 **					main.c
 */
-int					ft_close(char *e);
+int					argv_err(t_mlx *all);
+int					ft_exit(t_mlx *all);
+/*
+**					init.c
+*/
+void				init_all(t_mlx *all, char *argv);
+void				init_cam(t_cam *all);
+void				init_win(t_mlx *all);
 /*
 **					key_event.c
 */
-int					ft_key_hook(int key, void *para);
+int					ft_key_press(int key, t_mlx *all);
 /*
 **					mouse_event.c
 */
 void				ft_zoom_in(t_mlx *all, int x, int y, double zoom);
 void				ft_zoom_out(t_mlx *all, int x, int y, double zoom);
-int					ft_mouse_press(int key, int x, int y, void *param);
-int					ft_mouse_release(int key, int x, int y, void *param);
-int					ft_mouse_move(int x, int y, void *param);
-void				ft_mandelbrot(t_mlx *all);
+int					ft_mouse_press(int key, int x, int y, t_mlx *param);
+int					ft_mouse_release(int key, int x, int y, t_mlx *param);
+int					ft_mouse_move(int x, int y, t_mlx *param);
 t_complex			ft_new_complex(double re, double ir);
 /*
 **					util.c
@@ -110,7 +118,7 @@ t_mlx				*ft_new_fract(t_mlx *all);
 **					draw.c
 */
 void				ft_fill_pixel(t_mlx *all, int x, int y, unsigned int color);
-void				ft_render(t_mlx *all);
+void				show_img(t_mlx *all);
 void				ft_legend(t_mlx *all);
 /*
 **					color.c
@@ -122,15 +130,22 @@ unsigned int		ft_get_color(t_mlx *all, int i);
 t_complex			ft_new_complex(double re, double ir);
 void				ft_complex_calc(t_complex *z, t_complex c);
 double				ft_complex_mod(t_complex z);
+t_point				ft_new_point(int x, int y);
+/*
+**					Mandelbrot.c
+*/
+void				*mandelbrot(void *threads);
+void				init_mandelbrot(t_mlx *all);
 /*
 **					julia.c
 */
-int					ft_julia(t_mlx *all, int x_mouse, int y_mouse);
+void				*julia(t_mlx *all);
+void				init_julia(t_mlx *all);
 /*
 **					ship.c
 */
-void				ft_ship(t_mlx *all);
+void				*ship(t_mlx *all);
+void				init_ship(t_mlx *all);
 
-void 				*test(void *thread);
-void				threads(t_mlx *all);
+void				threads(t_mlx all);
 #endif

@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   julia.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/17 01:41:31 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/06/26 03:32:03 by tbeguin          ###   ########.fr       */
+/*   Created: 2019/04/03 18:20:17 by tbeguin           #+#    #+#             */
+/*   Updated: 2019/06/26 05:03:07 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_strcmp(const char *s1, const char *s2)
+#include "../inc/fractol.h"
+#include <stdio.h>
+
+void		threads(t_mlx all)
 {
-	int i;
+	int			i;
+	t_thread	threads[256];
 
 	i = 0;
-	while (s1[i] == s2[i] && s1[i] && s2[i])
+	while (i < all.cam.threads)
+	{
+		threads[i].i = i;
+		threads[i].all = all;
+		pthread_create(&threads[i].thread, NULL,
+				all.fra.fractal, &threads[i]);
 		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	}
+	i = 0;
+	while (i < all.cam.threads)
+		pthread_join(threads[i++].thread, NULL);
 }

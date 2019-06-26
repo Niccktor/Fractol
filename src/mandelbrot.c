@@ -6,58 +6,94 @@
 /*   By: nicktor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 16:48:59 by nicktor           #+#    #+#             */
-/*   Updated: 2019/04/10 18:15:23 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/06/26 06:05:35 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fractol.h"
+#include <math.h>
 
-static void		ft_reve(t_mlx *all)
+static double	power(double a, int pow)
 {
-	int				i;
-	int				j;
-	int				k;
-	unsigned int	color;
+	double new;
 
-	i = 0;
-	k = all->win->height;
-	while (i < all->win->height / 2)
+	new = 1;
+	while (pow)
 	{
-		j = -1;
-		while (++j < all->win->width)
-		{
-			color = all->win->img_str[(i) * all->win->width + j];
-			ft_fill_pixel(all, j, k, color);
-		}
-		i++;
-		k--;
+		new = new * a;
+		pow--;
 	}
+	return (new);
 }
 
-void			ft_mandelbrot(t_mlx *all)
+static void		ft_mandelbrot_calc(t_thread *thd, t_point point,
+					t_complex z, t_complex c)
 {
-	int			x;
-	int			y;
 	int			i;
-	t_complex	z;
-	t_complex	c;
+	double		tmp;
+	t_complex	z_tmp;
 
-	y = -1;
-	while ((++y < all->win->height / 2 + 1 && all->fra->reve == 1)
-			|| (y < all->win->height && all->fra->reve == 0))
+	z_tmp = ft_new_complex(1.0, 1.0);
+	i = -1;
+	while (++i <= thd->all.fra.iter && ft_complex_mod(z) <= 2.0)
 	{
-		x = -1;
-		while (++x < all->win->width)
+		if (thd->all.fra.pow == 3)
 		{
-			z = ft_new_complex(0.0, 0.0);
-			c = ft_new_complex(x / all->fra->zoom_x + all->fra->x_min,
-					y / all->fra->zoom_y + all->fra->y_min);
-			i = -1;
-			while (++i <= all->fra->iter && ft_complex_mod(z) <= 2.0)
-				ft_complex_calc(&z, c);
-			ft_fill_pixel(all, x, y, ft_get_color(all, i));
+			tmp = power(z.re, 3) - 3 * z.re * power(z.ir, 2) + c.re;
+			z.ir = 3 * power(z.re, 2) * z.ir - power(z.ir, 3) + c.ir;
+			z.re = tmp;
+		}
+		else
+		{
+			tmp = power(z.re * z.re + z.ir * z.ir, thd->all.fra.pow / 2) *
+				cos(thd->all.fra.pow * atan2(z.ir, z.re)) + c.re;
+			z.ir = power(z.re * z.re + z.ir * z.ir, thd->all.fra.pow / 2) *
+				sin(thd->all.fra.pow * atan2(z.ir, z.re)) + c.ir;
+			z.re = tmp;
 		}
 	}
-	if (all->fra->reve == 1)
-		ft_reve(all);
+	ft_fill_pixel(&thd->all, point.x, point.y, ft_get_color(&thd->all, i));
+}
+
+void			*mandelbrot(void *thread)
+{
+	t_thread	*thd;
+	t_point		point;
+	t_complex	z;
+	t_complex	c;
+	int			x_max;
+
+	thd = (t_thread *)thread;
+	point = ft_new_point(0, 0);
+	x_max = (thd->i + 1) * (thd->all.win.width / thd->all.cam.threads);
+	point.x = thd->i * (thd->all.win.width / thd->all.cam.threads);
+	while (point.y < thd->all.win.height)
+	{
+		point.x = thd->i * (thd->all.win.width / thd->all.cam.threads);
+		while (point.x < x_max)
+		{
+			z = ft_new_complex(0.0, 0.0);
+			c = ft_new_complex(point.x / thd->all.fra.zoom_x
+					+ thd->all.fra.x_min, point.y / thd->all.fra.zoom_y
+					+ thd->all.fra.y_min);
+			ft_mandelbrot_calc(thd, point, z, c);
+			point.x++;
+		}
+		point.y++;
+	}
+	return (0);
+}
+
+void			init_mandelbrot(t_mlx *all)
+{
+	all->fra.fractal = mandelbrot;
+	all->fra.x_min = -2.2;
+	all->fra.x_max = 2.2;
+	all->fra.y_min = -2.2;
+	all->fra.y_max = 2.2;
+	all->fra.zoom_x = all->win.width / (all->fra.x_max - all->fra.x_min);
+	all->fra.zoom_y = all->win.height / (all->fra.y_max - all->fra.y_min);
+	all->fra.pow = 5;
+	all->fra.iter = 100;
+	init_cam(&all->cam);
 }

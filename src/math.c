@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 18:29:34 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/04/08 21:42:44 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/06/26 04:13:35 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,12 @@ double			ft_complex_mod(t_complex z)
 	if (tmp < 0)
 		tmp *= -1;
 	return (sqrtf(tmp));
+}
+
+t_point		ft_new_point(int x, int y)
+{
+	t_point new;
+	new.x = x;
+	new.y = y;
+	return (new);
 }

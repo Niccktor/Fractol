@@ -6,12 +6,12 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 22:18:04 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/05/06 15:40:34 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/06/26 04:01:03 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fractol.h"
-
+/*
 static void	ft_key_cam(int key, t_mlx *all)
 {
 	if (key == 121 && all->fra->iter > 100)
@@ -65,7 +65,7 @@ static void	ft_key_move(int key, t_mlx *all)
 	ft_render(all);
 }
 
-int			ft_key_hook(int key, void *para)
+int			ft_key_hook(int key, t_mlx *para)
 {
 	t_mlx *all;
 
@@ -86,5 +86,20 @@ int			ft_key_hook(int key, void *para)
 			|| key == 69 || key == 126 || key == 123 || key == 124
 			|| key == 125)
 		ft_key_move(key, all);
+	return (0);
+}*/
+
+int		ft_key_press(int key , t_mlx *all)
+{
+	if (key == 53)
+		ft_exit(all);
+	if (key == 18  || (key == 15 && all->fra.fractal == mandelbrot))
+		init_mandelbrot(all);
+	if (key == 19 || (key == 15 && all->fra.fractal == julia))
+		init_julia(all);
+	if (key == 20 || (key == 15 && all->fra.fractal == ship))
+		init_ship(all);
+	
+	show_img(all);
 	return (0);
 }

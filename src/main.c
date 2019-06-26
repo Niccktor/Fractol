@@ -6,12 +6,12 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 16:06:50 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/06/19 17:36:27 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/06/26 04:38:10 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fractol.h"
-
+/*
 int	main(int argc, char **argv)
 {
 	t_mlx	*all;
@@ -33,7 +33,7 @@ int	main(int argc, char **argv)
 		ft_close("Erreur malloc fract");
 	threads(all);
 	mlx_put_image_to_window(all->mlx_ptr, all->win->win_ptr, all->win->img_ptr, 0, 0);
-/*	ft_render(all);*/
+	ft_render(all);
 	mlx_key_hook(all->win->win_ptr, ft_key_hook, (void *)all);
 	mlx_hook(all->win->win_ptr, 17, 0, ft_close, NULL);
 	mlx_hook(all->win->win_ptr, 4, 0, ft_mouse_press, (void *)all);
@@ -42,13 +42,35 @@ int	main(int argc, char **argv)
 	mlx_loop(all->mlx_ptr);
 	return (0);
 }
+*/
 
-int	ft_close(char *e)
+int	main(int argc, char **argv)
 {
-	if (e != NULL)
-	{
-		ft_putstr(e);
-		ft_putstr("\n");
-	}
+	t_mlx all;
+	
+	all.name = argv[0];
+	if (argc != 2)
+		argv_err(&all);
+	init_all(&all, argv[1]);
+	if (all.fra.fractal == NULL)
+		argv_err(&all);
+	init_win(&all);
+	mlx_loop(all.mlx_ptr);
+	return (0);
+}
+
+int		argv_err(t_mlx *all)
+{
+	ft_putstr("Usage : ");
+	ft_putstr(all->name);
+	ft_putstr("< [Mandelbrot] | [Julia] | [Ship] >\n");
 	exit(0);
+	return (0);
+}
+
+int		ft_exit(t_mlx *all)
+{
+	mlx_destroy_window(all->mlx_ptr, all->win.win_ptr);
+	exit(0);
+	return (0);
 }

@@ -6,12 +6,12 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 22:22:14 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/05/06 15:32:28 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/06/26 04:07:12 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fractol.h"
-
+/*
 void	ft_zoom_in(t_mlx *all, int x, int y, double zoom)
 {
 	double	e;
@@ -57,13 +57,15 @@ void	ft_zoom_out(t_mlx *all, int x, int y, double zoom)
 			/ (all->fra->y_max - all->fra->y_min);
 	}
 }
-
-int		ft_mouse_press(int key, int x, int y, void *param)
+*/
+int		ft_mouse_press(int key, int x, int y, t_mlx *all)
 {
-	t_mlx	*all;
-
-	all = (t_mlx *)param;
-	if (x > all->win->width || x < 0 || y > all->win->height || y < 0)
+	x = 0;
+	y = 0;
+	key = 0;
+	if (all->fra.fractal == ship)
+		key = 1;
+/*	if (x > all->win.width || x < 0 || y > all->win->height || y < 0)
 		return (0);
 	if (key == 4)
 		ft_zoom_in(all, x, y, 1.2);
@@ -73,33 +75,36 @@ int		ft_mouse_press(int key, int x, int y, void *param)
 		all->cam->mouse_right = 0;
 	if (key == 2)
 		all->cam->mouse_right = 1;
-	ft_render(all);
+	ft_render(all);*/
 	return (0);
 }
 
-int		ft_mouse_release(int key, int x, int y, void *param)
+int		ft_mouse_release(int key, int x, int y, t_mlx *all)
 {
-	t_mlx	*all;
-
-	all = (t_mlx *)param;
-	if (x > all->win->width || x < 0 || y > all->win->height || y < 0)
-		return (0);
+	x = 0;
+	y = 0;
 	key = 0;
+	if (all->fra.fractal == ship)
+		key = 1;
+	/*if (x > all->win->width || x < 0 || y > all->win->height || y < 0)
+		return (0);
+	key = 0;*/
 	return (0);
 }
 
-int		ft_mouse_move(int x, int y, void *param)
+int		ft_mouse_move(int x, int y, t_mlx *all)
 {
-	t_mlx *all;
-
-	all = (t_mlx *)param;
-	if (x > all->win->width || x < 0 || y > all->win->height || y < 0)
+	x = 0;
+	y = 0;
+	if (all->fra.fractal == ship)
+		y = 1;
+/*	if (x > all->win->width || x < 0 || y > all->win->height || y < 0)
 		return (0);
 	if (all->cam->mouse_right == 0 && all->cam->fractal == 'j')
 	{
 		all->cam->x_mouse = x;
 		all->cam->y_mouse = y;
 		ft_render(all);
-	}
+	}*/
 	return (0);
 }

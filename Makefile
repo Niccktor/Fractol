@@ -6,7 +6,7 @@
 #    By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/14 15:49:27 by tbeguin           #+#    #+#              #
-#    Updated: 2019/06/19 17:11:10 by tbeguin          ###   ########.fr        #
+#    Updated: 2019/06/26 04:35:37 by tbeguin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,16 +23,16 @@ LIB_FT	= ./libft
 FT_LNK	= -L $(LIB_FT) -l ft
 
 SRC = main.c		\
+	  init.c		\
 	  mandelbrot.c	\
-	  draw.c		\
-	  color.c		\
-	  util.c		\
 	  julia.c		\
-	  math.c		\
-	  mouse_event.c	\
-	  key_event.c	\
 	  ship.c		\
-	  test.c
+	  key_event.c	\
+	  mouse_event.c	\
+	  draw.c		\
+	  math.c		\
+	  color.c		\
+	  threads.c		
 
 OBJ = $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 
