@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 16:09:03 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/06/26 04:35:19 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/06/26 07:58:44 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,40 @@
 # include "../libft/libft.h"
 # include <mlx.h>
 # include <pthread.h>
+
+/*
+**					Key 
+*/
+# define R 15
+# define ONE 18
+# define TOW 19
+# define THREE 20
+# define FOUR 21
+# define FIVE 22
+# define SIX 23
+# define SEVEN 24
+# define EIGHT 25
+# define O 31
+# define P 35
+# define L 37
+# define K 40
+# define ESC 53
+# define MORE_PAD 69
+# define LESS_PAD 78
+# define ONE_PAD 83
+# define TOW_PAD 84
+# define THREE_PAD 85
+# define FOUR_PAD 86
+# define SIX_PAD 88
+# define SEVEN_PAD 89
+# define EIGHT_PAD 91
+# define NINE_PAD 92
+# define PAGE_UP 116
+# define PAGE_DOWN 121
+# define ARROW_LEFT 123
+# define ARROW_RIGHT 124
+# define ARROW_DOWN 125
+# define ARROW_UP 126
 
 typedef struct		s_point
 {
@@ -108,13 +142,6 @@ int					ft_mouse_release(int key, int x, int y, t_mlx *param);
 int					ft_mouse_move(int x, int y, t_mlx *param);
 t_complex			ft_new_complex(double re, double ir);
 /*
-**					util.c
-*/
-t_mlx				*ft_new_mlx();
-t_mlx				*ft_new_win(t_mlx *mlx_all, char *s, int width, int height);
-t_mlx				*ft_new_cam(t_mlx *all, char *argv);
-t_mlx				*ft_new_fract(t_mlx *all);
-/*
 **					draw.c
 */
 void				ft_fill_pixel(t_mlx *all, int x, int y, unsigned int color);
@@ -128,9 +155,9 @@ unsigned int		ft_get_color(t_mlx *all, int i);
 **					math.c
 */
 t_complex			ft_new_complex(double re, double ir);
-void				ft_complex_calc(t_complex *z, t_complex c);
 double				ft_complex_mod(t_complex z);
 t_point				ft_new_point(int x, int y);
+double				power(double a, int pow);
 /*
 **					Mandelbrot.c
 */
@@ -139,12 +166,13 @@ void				init_mandelbrot(t_mlx *all);
 /*
 **					julia.c
 */
-void				*julia(t_mlx *all);
+void				*julia(void *threads);
 void				init_julia(t_mlx *all);
+void				init_julia_preset(t_mlx *all, int i);
 /*
 **					ship.c
 */
-void				*ship(t_mlx *all);
+void				*ship(void *threads);
 void				init_ship(t_mlx *all);
 
 void				threads(t_mlx all);

@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 02:05:11 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/06/26 05:07:47 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/06/26 06:29:40 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	init_cam(t_cam *cam)
 {
 	cam->mouse_left = 0;
 	cam->mouse_right = 0;
-	cam->x_mouse = 0;
-	cam->y_mouse = 0;
+	cam->x_mouse = 400;
+	cam->y_mouse = 600;
 	cam->color = 0x00001;
 	cam->o = 0;
 	cam->r = 10;

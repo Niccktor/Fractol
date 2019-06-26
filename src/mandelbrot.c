@@ -6,25 +6,12 @@
 /*   By: nicktor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 16:48:59 by nicktor           #+#    #+#             */
-/*   Updated: 2019/06/26 06:22:53 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/06/26 07:52:24 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fractol.h"
 #include <math.h>
-
-static double	power(double a, int pow)
-{
-	double new;
-
-	new = 1;
-	while (pow)
-	{
-		new = new * a;
-		pow--;
-	}
-	return (new);
-}
 
 static void		ft_mandelbrot_calc(t_thread *thd, t_point point,
 					t_complex z, t_complex c)
@@ -90,7 +77,7 @@ void			init_mandelbrot(t_mlx *all)
 	all->fra.y_max = 2.2;
 	all->fra.zoom_x = all->win.width / (all->fra.x_max - all->fra.x_min);
 	all->fra.zoom_y = all->win.height / (all->fra.y_max - all->fra.y_min);
-	all->fra.pow = 5;
+	all->fra.pow = 2;
 	all->fra.iter = 100;
 	init_cam(&all->cam);
 }
