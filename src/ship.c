@@ -6,47 +6,55 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 20:13:56 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/06/26 02:52:42 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/06/26 06:55:56 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fractol.h"
-/*
-static void	ft_ship_calc(t_complex *z, t_complex c)
-{
-	double tmp;
-	double tmp2;
 
-	tmp = z->re;
-	z->re = z->re * z->re - z->ir * z->ir + c.re;
-	tmp2 = z->ir * tmp;
-	z->ir = (tmp2 < 0) ? 2 * (tmp2 * -1) + c.ir : 2 * tmp2 + c.ir;
-}
-*/
-void		*ship(t_mlx *all)
-{/*
-	int			x;
-	int			y;
+static void		ship_calc(t_thread *thd, t_point point
+					, t_complex z, t_complex c)
+{
 	int			i;
+	double		tmp;
+	double		tmp2;
+
+	i = -1;
+	while (++i < thd->all.fra.iter && ft_complex_mod(z) <= 2.0)
+	{
+		tmp = z.re;
+		z.re = z.re * z.re - z.ir * z.ir + c.re;
+		tmp2 = z.ir * tmp;
+		z.ir = (tmp2 < 0) ? 2 * (tmp2 * -1) + c.ir : 2 * tmp2 + c.ir;
+	}
+	ft_fill_pixel(&thd->all, point.x, point.y, ft_get_color(&thd->all, i));
+}
+
+void			*ship(void *threads)
+{
+	t_thread	*thd;
+	t_point		point;
 	t_complex	z;
 	t_complex	c;
+	int			x_max;
 
-	y = -1;
-	while (++y < all->win->height)
+	thd = (t_thread *)threads;
+	point = ft_new_point(0, 0);
+	x_max = (thd->i + 1) * (thd->all.win.width / thd->all.cam.threads);
+	while (point.y < thd->all.win.height)
 	{
-		x = -1;
-		while (++x < all->win->width)
+		point.x = thd->i * (thd->all.win.width / thd->all.cam.threads);
+		while (point.x < x_max)
 		{
 			z = ft_new_complex(0.0, 0.0);
-			c = ft_new_complex(x / all->fra->zoom_x + all->fra->x_min,
-					y / all->fra->zoom_y + all->fra->y_min);
-			i = -1;
-			while (++i < all->fra->iter && ft_complex_mod(z) <= 2.0)
-				ft_ship_calc(&z, c);
-			ft_fill_pixel(all, x, y, ft_get_color(all, i));
+			c = ft_new_complex(point.x / thd->all.fra.zoom_x
+					+ thd->all.fra.x_min
+					, point.y / thd->all.fra.zoom_y + thd->all.fra.y_min);
+			ship_calc(thd, point, z, c);
+			point.x++;
 		}
-	}*/
-	all->fra.x_min = -2.2;
+		point.y++;
+	}
 	return (0);
 }
 
