@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 22:18:04 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/06/26 07:57:41 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/09/05 12:05:17 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 static int	ft_key_color(int key, t_mlx *all)
 {
-	if (key == FOUR_PAD && all->cam.o > 0)
-		all->cam.o -= 1;
-	if (key == SIX_PAD && all->cam.o < 200)
-		all->cam.o += 1;
 	if (key == ONE_PAD && all->cam.r > 0)
 		all->cam.r--;
 	if (key == SEVEN_PAD && all->cam.r < 50)
@@ -30,6 +26,14 @@ static int	ft_key_color(int key, t_mlx *all)
 		all->cam.b--;
 	if (key == NINE_PAD && all->cam.b < 50)
 		all->cam.b++;
+	if (key == Z)
+		ft_preset_color(all, 1);
+	if (key == X)
+		ft_preset_color(all, 2);
+	if (key == C)
+		ft_preset_color(all, 3);
+	if (key == V)
+		ft_preset_color(all, 4);
 	show_img(all);
 	return (0);
 }
@@ -63,7 +67,7 @@ int			ft_key_press(int key, t_mlx *all)
 {
 	if (key == ESC)
 		ft_exit(all);
-	if (key == ONE  || (key == R && all->fra.fractal == mandelbrot))
+	if (key == ONE || (key == R && all->fra.fractal == mandelbrot))
 		init_mandelbrot(all);
 	if (key == TOW || (key == R && all->fra.fractal == julia))
 		init_julia(all);

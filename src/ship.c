@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 20:13:56 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/06/26 06:55:56 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/09/05 11:04:14 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ void			init_ship(t_mlx *all)
 	all->fra.pow = 2;
 	all->fra.zoom_x = all->win.width / (all->fra.x_max - all->fra.x_min);
 	all->fra.zoom_y = all->win.width / (all->fra.y_max - all->fra.y_min);
+	all->fra.lock = 1;
 	init_cam(&all->cam);
 }

@@ -6,7 +6,7 @@
 /*   By: nicktor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 16:48:59 by nicktor           #+#    #+#             */
-/*   Updated: 2019/06/26 07:52:24 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/09/05 12:06:32 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void		ft_mandelbrot_calc(t_thread *thd, t_point point,
 {
 	int			i;
 	double		tmp;
-	
+
 	i = -1;
 	while (++i <= thd->all.fra.iter && ft_complex_mod(z) <= 2.0)
 	{
@@ -79,5 +79,6 @@ void			init_mandelbrot(t_mlx *all)
 	all->fra.zoom_y = all->win.height / (all->fra.y_max - all->fra.y_min);
 	all->fra.pow = 2;
 	all->fra.iter = 100;
+	all->fra.lock = 1;
 	init_cam(&all->cam);
 }

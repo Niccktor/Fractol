@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 18:20:17 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/06/26 08:05:28 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/09/05 12:04:56 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void			*julia(void *thread)
 	t_thread	*thd;
 	t_point		point;
 	t_complex	z;
-	t_complex	c;
 	int			x_max;
 
 	thd = (t_thread *)thread;
@@ -50,11 +49,7 @@ void			*julia(void *thread)
 			z = ft_new_complex(point.x / thd->all.fra.zoom_x
 					+ thd->all.fra.x_min
 					, point.y / thd->all.fra.zoom_y + thd->all.fra.y_min);
-			c = ft_new_complex(thd->all.cam.x_mouse / thd->all.fra.zoom_x
-					+ thd->all.fra.x_min
-					, thd->all.cam.y_mouse / thd->all.fra.zoom_y
-					+ thd->all.fra.y_min);
-			julia_calc(thd, point, z, c);
+			julia_calc(thd, point, z, thd->all.fra.c);
 		}
 	}
 	return (0);
@@ -69,12 +64,35 @@ void			init_julia(t_mlx *all)
 	all->fra.y_max = 2.2;
 	all->fra.iter = 100;
 	all->fra.pow = 2;
+	all->fra.lock = 0;
 	all->fra.zoom_x = all->win.width / (all->fra.x_max - all->fra.x_min);
 	all->fra.zoom_y = all->win.height / (all->fra.y_max - all->fra.y_min);
+	all->fra.c = ft_new_complex(0 / all->fra.zoom_x
+		+ all->fra.x_min
+		, 0 / all->fra.zoom_y
+		+ all->fra.y_min);
 	init_cam(&all->cam);
 }
-void		init_julia_preset(t_mlx *all, int i)
+
+void			init_julia_preset(t_mlx *all, int i)
 {
-	i = 10;
+	t_complex	c;
+
 	init_julia(all);
+	all->fra.lock = 1;
+	if (i == 1)
+		c = ft_new_complex(0.3, 0.5);
+	else if (i == 2)
+		c = ft_new_complex(0.285, 0.01);
+	else if (i == 3)
+		c = ft_new_complex(-0.038088, 0.9754633);
+	else if (i == 4)
+		c = ft_new_complex(-1.476, 0);
+	else if (i == 5)
+		c = ft_new_complex(-0.8, 0.156);
+	else
+		c = ft_new_complex(0, 0);
+	ft_putnbr(i);
+	ft_putstr("\n");
+	all->fra.c = c;
 }
