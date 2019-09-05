@@ -6,7 +6,7 @@
 /*   By: tbeguin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 16:09:03 by tbeguin           #+#    #+#             */
-/*   Updated: 2019/06/26 07:58:44 by tbeguin          ###   ########.fr       */
+/*   Updated: 2019/09/05 12:02:42 by tbeguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,22 @@
 # include <pthread.h>
 
 /*
-**					Key 
+**					Key
 */
+
+# define Z 6
+# define X 7
+# define C 8
+# define V 9
 # define R 15
 # define ONE 18
 # define TOW 19
 # define THREE 20
 # define FOUR 21
-# define FIVE 22
-# define SIX 23
-# define SEVEN 24
-# define EIGHT 25
+# define FIVE 23
+# define SIX 22
+# define SEVEN 26
+# define EIGHT 28
 # define O 31
 # define P 35
 # define L 37
@@ -76,8 +81,6 @@ typedef struct		s_win
 
 typedef struct		s_cam
 {
-	int				mouse_left;
-	int				mouse_right;
 	int				x_mouse;
 	int				y_mouse;
 	unsigned int	color;
@@ -86,12 +89,13 @@ typedef struct		s_cam
 	int				g;
 	int				b;
 	unsigned int	color_end;
-	int				threads; 
+	int				threads;
 }					t_cam;
 
 typedef struct		s_fract
 {
 	void			*(*fractal)();
+	t_complex		c;
 	double			x_min;
 	double			x_max;
 	double			y_min;
@@ -100,15 +104,16 @@ typedef struct		s_fract
 	double			zoom_y;
 	int				iter;
 	int				pow;
+	int				lock;
 }					t_fract;
 
 typedef struct		s_mlx
 {
-	void				*mlx_ptr;
-	char				*name;
-	struct s_win			win;
-	struct s_cam			cam;
-	struct s_fract			fra;
+	void			*mlx_ptr;
+	char			*name;
+	struct s_win	win;
+	struct s_cam	cam;
+	struct s_fract	fra;
 }					t_mlx;
 
 typedef struct		s_thread
@@ -138,7 +143,6 @@ int					ft_key_press(int key, t_mlx *all);
 void				ft_zoom_in(t_mlx *all, int x, int y, double zoom);
 void				ft_zoom_out(t_mlx *all, int x, int y, double zoom);
 int					ft_mouse_press(int key, int x, int y, t_mlx *param);
-int					ft_mouse_release(int key, int x, int y, t_mlx *param);
 int					ft_mouse_move(int x, int y, t_mlx *param);
 t_complex			ft_new_complex(double re, double ir);
 /*
@@ -151,6 +155,7 @@ void				ft_legend(t_mlx *all);
 **					color.c
 */
 unsigned int		ft_get_color(t_mlx *all, int i);
+void				ft_preset_color(t_mlx *all, int i);
 /*
 **					math.c
 */
